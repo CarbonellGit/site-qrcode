@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Código QR Scanner Premium</title>
+    <meta name="description" content="Leitor de QR Code rápido e seguro.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                        <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                        <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                        <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                        <rect x="7" y="7" width="10" height="10" rx="1"></rect>
+                    </svg>
+                </div>
+                <h1 class="app-title">Scanner de Alta Performance</h1>
+            </div>
+            <p class="app-subtitle" aria-live="polite">Aponte sua câmera para o QR Code</p>
+        </header>
+
+        <!-- Main Scanner Area -->
+        <main class="scanner-section">
+            <div id="reader-wrapper" class="state-loading" aria-live="assertive">
+                <!-- html5-qrcode injection point -->
+                <div id="reader"></div>
+
+                <!-- Custom UI Overlays for Application States -->
+                <div class="overlay loading-overlay" aria-hidden="false">
+                    <div class="spinner"></div>
+                    <p>Acessando a câmera...</p>
+                </div>
+
+                <div class="overlay success-overlay" aria-hidden="true">
+                    <div class="success-animation">
+                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    <p>Redirecionando...</p>
+                </div>
+
+                <div class="overlay error-overlay" aria-hidden="true">
+                    <div class="error-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <p class="error-text">Ocorreu um erro no acesso à câmera.</p>
+                    <button id="retry-btn" class="btn-primary" aria-label="Tentar Novamente">Tentar Novamente</button>
+                </div>
+            </div>
+
+            <!-- Validation/Result Status Area -->
+            <div class="status-container">
+                <div id="status-badge" class="badge">Pronto para ler</div>
+                <p id="result-text" class="result-text" aria-live="polite"></p>
+            </div>
+        </main>
+        
+        <footer class="app-footer">
+            <p>Plataforma Segura</p>
+        </footer>
+    </div>
+
+    <!-- html5-qrcode library loaded from CDN -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <!-- Main Application Module -->
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
