@@ -65,6 +65,10 @@ export class UIHandler {
      * @param {'default' | 'success' | 'error'} type - Style variant
      */
     updateStatus(message, type) {
+        // [WARNING]: SECURITY DIRECTIVE
+        // DO NOT change `textContent` to `innerHTML`.
+        // The `message` can contain raw arbitrary data from the QR Code.
+        // Using `innerHTML` would expose the application to XSS (Cross-Site Scripting) attacks.
         this.resultText.textContent = message;
         
         if (type === 'success') {
