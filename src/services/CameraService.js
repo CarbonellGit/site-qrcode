@@ -2,6 +2,8 @@ export class CameraService {
     constructor(elementId) {
         this.elementId = elementId;
         this.scannerInstance = null;
+        this._visibilityBound = false;
+        this._pausedByVisibility = false;
     }
 
     /**
@@ -10,7 +12,35 @@ export class CameraService {
     init() {
         if (!this.scannerInstance && window.Html5Qrcode) {
             this.scannerInstance = new window.Html5Qrcode(this.elementId);
+            this._bindVisibilityListener();
         }
+    }
+
+    /**
+     * Binds the page visibility listener to manage background camera state.
+     */
+    _bindVisibilityListener() {
+        if (this._visibilityBound) return;
+        this._visibilityBound = true;
+
+        document.addEventListener('visibilitychange', () => {
+            if (!this.scannerInstance) return;
+
+            if (document.visibilityState === 'hidden') {
+                // html5-qrcode internal state 2 = SCANNING
+                if (this.scannerInstance.getState() === 2) {
+                    this.pauseCamera();
+                    this._pausedByVisibility = true; // Flag to indicate we auto-paused it
+                }
+            } else if (document.visibilityState === 'visible') {
+                // html5-qrcode internal state 3 = PAUSED
+                // Only auto-resume if it was paused BY the visibility API
+                if (this.scannerInstance.getState() === 3 && this._pausedByVisibility) {
+                    this.resumeCamera();
+                    this._pausedByVisibility = false; 
+                }
+            }
+        });
     }
 
     /**
@@ -53,6 +83,8 @@ export class CameraService {
      */
     resumeCamera() {
         if (this.scannerInstance && this.scannerInstance.getState() === 3) { // 3 = PAUSED
+            // Ensure we clear the flag manually if resumed explicitly by the user/system
+            this._pausedByVisibility = false; 
             this.scannerInstance.resume();
         }
     }
