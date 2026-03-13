@@ -5,41 +5,41 @@ export class UIHandler {
         this.statusBadge = document.getElementById('status-badge');
         this.errorText = document.querySelector('.error-text');
 
-        // Phishing prevention UI
+        // UI de prevenção contra phishing
         this.actionContainer = document.getElementById('action-container');
         this.accessLinkBtn = document.getElementById('access-link-btn');
         this.resumeScanBtn = document.getElementById('resume-scan-btn');
     }
 
     /**
-     * Sets the visual state of the scanner UI.
+     * Define o estado visual da interface de usuário do scanner.
      * @param {'loading' | 'active' | 'success' | 'error'} state
-     * @param {string} customErrorMessage - Optional custom error text
+     * @param {string} customErrorMessage - Texto de erro customizado opcional
      */
     setState(state, customErrorMessage = '') {
-        // Reset specific state classes on the wrapper
+        // Redefine as classes de estado específicas no wrapper central
         this.wrapper.classList.remove('state-loading', 'state-active', 'state-success', 'state-error');
         this.wrapper.classList.add(`state-${state}`);
         
-        // Hide all overlays strictly via ARIA
+        // Oculta todas as camadas sobrepostas (overlays) estritamente via ARIA
         const overlays = document.querySelectorAll('.overlay');
         overlays.forEach(overlay => {
             overlay.setAttribute('aria-hidden', 'true');
         });
 
-        // Hide action container by default when switching states
+        // Oculta o contêiner de ação por padrão ao trocar de estados
         if (this.actionContainer) {
             this.actionContainer.classList.add('hidden');
             this.actionContainer.setAttribute('aria-hidden', 'true');
         }
 
-        // Show the target overlay if it exists
+        // Exibe a camada sobreposta alvo (target overlay) se ela existir
         const targetOverlay = document.querySelector(`.${state}-overlay`);
         if (targetOverlay) {
             targetOverlay.setAttribute('aria-hidden', 'false');
         }
 
-        // Handle specific logic per state
+        // Trata a lógica específica para cada estado
         switch (state) {
             case 'loading':
                 this.updateStatus('Acessando câmera...', 'default');
@@ -48,7 +48,7 @@ export class UIHandler {
                 this.updateStatus('Pronto para ler', 'default');
                 break;
             case 'success':
-                // Handled primarily by the ScannerEngine for specific text
+                // Tratado principalmente pela ScannerEngine para um texto específico
                 break;
             case 'error':
                 if (customErrorMessage) {
@@ -60,9 +60,9 @@ export class UIHandler {
     }
 
     /**
-     * Updates the text and semantic meaning of the status badge below the scanner.
-     * @param {string} message - Text to display
-     * @param {'default' | 'success' | 'error'} type - Style variant
+     * Atualiza o texto e o significado semântico do emblema (badge) de status abaixo do scanner.
+     * @param {string} message - Texto para mostrar
+     * @param {'default' | 'success' | 'error'} type - Variante de estilo
      */
     updateStatus(message, type) {
         // [WARNING]: SECURITY DIRECTIVE
@@ -84,37 +84,37 @@ export class UIHandler {
     }
 
     /**
-     * Triggers the Vibration API if supported by the device.
+     * Aciona a API de Vibração se for suportada pelo dispositivo.
      */
     vibrateSuccess() {
         if ('vibrate' in navigator) {
-            // Pattern: vibration, pause, vibration
+            // Padrão: vibração, pausa, vibração
             navigator.vibrate([100, 50, 100]);
         }
     }
 
     /**
-     * Shows the action buttons for a detected URL, requiring manual confirmation
-     * to prevent phishing/open redirects.
-     * @param {string} url - The detected URL
-     * @param {Function} onAccess - Callback when the user clicks to access the link
-     * @param {Function} onCancel - Callback when the user cancels to resume scanning
+     * Exibe os botões de ação para uma URL detectada, exigindo confirmação manual
+     * para previnir phishing/redirecionamentos abertos.
+     * @param {string} url - A URL detectada
+     * @param {Function} onAccess - Callback de quando o usuário clica para acessar o link
+     * @param {Function} onCancel - Callback de quando o usuário cancela para retomar o escaneamento
      */
     showUrlAction(url, onAccess, onCancel) {
         if (!this.actionContainer) return;
         
-        // Remove previous listeners using cloned nodes (a clean approach)
+        // Remove os ouvintes (listeners) anteriores usando nós clonados (uma abordagem mais limpa)
         const newAccessBtn = this.accessLinkBtn.cloneNode(true);
         const newResumeBtn = this.resumeScanBtn.cloneNode(true);
         
         this.accessLinkBtn.parentNode.replaceChild(newAccessBtn, this.accessLinkBtn);
         this.resumeScanBtn.parentNode.replaceChild(newResumeBtn, this.resumeScanBtn);
         
-        // Re-assign references
+        // Reatribuir referências
         this.accessLinkBtn = newAccessBtn;
         this.resumeScanBtn = newResumeBtn;
 
-        // Add new listeners
+        // Adicionar novos ouvintes (listeners)
         this.accessLinkBtn.addEventListener('click', () => onAccess());
         this.resumeScanBtn.addEventListener('click', () => {
             this.actionContainer.classList.add('hidden');
@@ -122,7 +122,7 @@ export class UIHandler {
             onCancel();
         });
 
-        // Show the container
+        // Exibe o contêiner
         this.actionContainer.classList.remove('hidden');
         this.actionContainer.setAttribute('aria-hidden', 'false');
     }
