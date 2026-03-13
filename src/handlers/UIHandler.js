@@ -4,6 +4,11 @@ export class UIHandler {
         this.resultText = document.getElementById('result-text');
         this.statusBadge = document.getElementById('status-badge');
         this.errorText = document.querySelector('.error-text');
+
+        // Phishing prevention UI
+        this.actionContainer = document.getElementById('action-container');
+        this.accessLinkBtn = document.getElementById('access-link-btn');
+        this.resumeScanBtn = document.getElementById('resume-scan-btn');
     }
 
     /**
@@ -21,6 +26,12 @@ export class UIHandler {
         overlays.forEach(overlay => {
             overlay.setAttribute('aria-hidden', 'true');
         });
+
+        // Hide action container by default when switching states
+        if (this.actionContainer) {
+            this.actionContainer.classList.add('hidden');
+            this.actionContainer.setAttribute('aria-hidden', 'true');
+        }
 
         // Show the target overlay if it exists
         const targetOverlay = document.querySelector(`.${state}-overlay`);
@@ -76,5 +87,39 @@ export class UIHandler {
             // Pattern: vibration, pause, vibration
             navigator.vibrate([100, 50, 100]);
         }
+    }
+
+    /**
+     * Shows the action buttons for a detected URL, requiring manual confirmation
+     * to prevent phishing/open redirects.
+     * @param {string} url - The detected URL
+     * @param {Function} onAccess - Callback when the user clicks to access the link
+     * @param {Function} onCancel - Callback when the user cancels to resume scanning
+     */
+    showUrlAction(url, onAccess, onCancel) {
+        if (!this.actionContainer) return;
+        
+        // Remove previous listeners using cloned nodes (a clean approach)
+        const newAccessBtn = this.accessLinkBtn.cloneNode(true);
+        const newResumeBtn = this.resumeScanBtn.cloneNode(true);
+        
+        this.accessLinkBtn.parentNode.replaceChild(newAccessBtn, this.accessLinkBtn);
+        this.resumeScanBtn.parentNode.replaceChild(newResumeBtn, this.resumeScanBtn);
+        
+        // Re-assign references
+        this.accessLinkBtn = newAccessBtn;
+        this.resumeScanBtn = newResumeBtn;
+
+        // Add new listeners
+        this.accessLinkBtn.addEventListener('click', () => onAccess());
+        this.resumeScanBtn.addEventListener('click', () => {
+            this.actionContainer.classList.add('hidden');
+            this.actionContainer.setAttribute('aria-hidden', 'true');
+            onCancel();
+        });
+
+        // Show the container
+        this.actionContainer.classList.remove('hidden');
+        this.actionContainer.setAttribute('aria-hidden', 'false');
     }
 }
