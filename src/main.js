@@ -7,16 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const retryBtn = document.getElementById('retry-btn');
     
     /**
-     * Initialization routine. Waits recursively for html5-qrcode
-     * to become available globally.
+     * Initialization routine. 
+     * Runs when the HTML payload is ready and the external scanning library is loaded.
      */
     const initApplication = () => {
-        if (typeof window.Html5Qrcode === 'undefined') {
-            // Wait 100ms and check again if CDN isn't parsed yet
-            setTimeout(initApplication, 100);
-            return;
-        }
-
         const uiHandler = new UIHandler();
         const cameraService = new CameraService('reader');
         const scannerEngine = new ScannerEngine(cameraService, uiHandler);
@@ -32,6 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    /**
+     * Boots up the system only when dependencies are fully available.
+     * Prevents continuous DOM polling.
+     */
+    const bootstrap = () => {
+        if (typeof window.Html5Qrcode !== 'undefined') {
+            initApplication();
+        } else {
+            window.addEventListener('scannerLibraryLoaded', initApplication, { once: true });
+        }
+    };
+
     // Kick-off
-    initApplication();
+    bootstrap();
 });
