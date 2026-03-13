@@ -7,7 +7,7 @@ export class CameraService {
     }
 
     /**
-     * Initializes the Html5Qrcode instance if not already created.
+     * Inicializa a instância do Html5Qrcode caso ainda não tenha sido criada.
      */
     init() {
         if (!this.scannerInstance && window.Html5Qrcode) {
@@ -17,7 +17,7 @@ export class CameraService {
     }
 
     /**
-     * Binds the page visibility listener to manage background camera state.
+     * Vincula o ouvinte de visibilidade da página para gerenciar o estado da câmera em segundo plano.
      */
     _bindVisibilityListener() {
         if (this._visibilityBound) return;
@@ -27,14 +27,14 @@ export class CameraService {
             if (!this.scannerInstance) return;
 
             if (document.visibilityState === 'hidden') {
-                // html5-qrcode internal state 2 = SCANNING
+                // Estado interno do html5-qrcode 2 = SCANNING (Escaneando)
                 if (this.scannerInstance.getState() === 2) {
                     this.pauseCamera();
-                    this._pausedByVisibility = true; // Flag to indicate we auto-paused it
+                    this._pausedByVisibility = true; // Flag para indicar que pausamos automaticamente
                 }
             } else if (document.visibilityState === 'visible') {
-                // html5-qrcode internal state 3 = PAUSED
-                // Only auto-resume if it was paused BY the visibility API
+                // Estado interno do html5-qrcode 3 = PAUSED (Pausado)
+                // Apenas retoma automaticamente se foi pausado pela API de visibilidade
                 if (this.scannerInstance.getState() === 3 && this._pausedByVisibility) {
                     this.resumeCamera();
                     this._pausedByVisibility = false; 
@@ -44,10 +44,10 @@ export class CameraService {
     }
 
     /**
-     * Starts the camera with the given configuration.
-     * @param {Object} config - QR Code scanning configuration
-     * @param {Function} onDetect - Callback on successful detection
-     * @param {Function} onError - Callback on detection error (transient)
+     * Inicia a câmera com a configuração informada.
+     * @param {Object} config - Configuração de escaneamento do QR Code
+     * @param {Function} onDetect - Callback executado em caso de sucesso na detecção
+     * @param {Function} onError - Callback executado em caso de erro na detecção (transiente)
      */
     async startCamera(config, onDetect, onError) {
         this.init();
@@ -57,7 +57,7 @@ export class CameraService {
 
         try {
             await this.scannerInstance.start(
-                { facingMode: "environment" }, // Prefer back camera
+                { facingMode: "environment" }, // Preferir a câmera traseira
                 config,
                 onDetect,
                 onError
@@ -74,7 +74,7 @@ export class CameraService {
     }
 
     /**
-     * Pauses the active camera stream.
+     * Pausa o stream ativo da câmera.
      */
     pauseCamera() {
         if (this.scannerInstance && this.scannerInstance.getState() === 2) { // 2 = SCANNING
@@ -83,18 +83,18 @@ export class CameraService {
     }
 
     /**
-     * Resumes the paused camera stream.
+     * Retoma o stream pausado da câmera.
      */
     resumeCamera() {
         if (this.scannerInstance && this.scannerInstance.getState() === 3) { // 3 = PAUSED
-            // Ensure we clear the flag manually if resumed explicitly by the user/system
+            // Garantir que a flag seja limpa manualmente se retomado explicitamente pelo usuário/sistema
             this._pausedByVisibility = false; 
             this.scannerInstance.resume();
         }
     }
 
     /**
-     * Stops the camera and clears the instance.
+     * Para a câmera e limpa a instância.
      */
     async stopCamera() {
         if (this.scannerInstance && this.scannerInstance.isScanning) {

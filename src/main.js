@@ -3,22 +3,22 @@ import { ScannerEngine } from './engines/ScannerEngine.js';
 import { UIHandler } from './handlers/UIHandler.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Retry button setup
+    // Configuração do botão de tentar novamente
     const retryBtn = document.getElementById('retry-btn');
     
     /**
-     * Initialization routine. 
-     * Runs when the HTML payload is ready and the external scanning library is loaded.
+     * Rotina de inicialização. 
+     * Executa quando o HTML está pronto e a biblioteca externa de scanner foi carregada.
      */
     const initApplication = () => {
         const uiHandler = new UIHandler();
         const cameraService = new CameraService('reader');
         const scannerEngine = new ScannerEngine(cameraService, uiHandler);
 
-        // Start scanning
+        // Iniciar escaneamento
         scannerEngine.start();
 
-        // Bind retry button
+        // Vincular botão de tentar novamente
         if (retryBtn) {
             retryBtn.addEventListener('click', () => {
                 scannerEngine.start();
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     /**
-     * Boots up the system only when dependencies are fully available.
-     * Prevents continuous DOM polling.
+     * Inicializa o sistema apenas quando as dependências estão totalmente disponíveis.
+     * Previne a verificação contínua do DOM (polling).
      */
     const bootstrap = () => {
         if (typeof window.Html5Qrcode !== 'undefined') {
@@ -38,6 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Kick-off
+    // Ponto de partida
     bootstrap();
 });

@@ -6,7 +6,7 @@ export class ScannerEngine {
     }
 
     /**
-     * Generates responsive configuration based on viewport width.
+     * Gera configuração responsiva com base na largura da janela.
      */
     getScannerConfig() {
         const qrBoxSize = window.innerWidth < 768 ? 250 : 400;
@@ -14,22 +14,22 @@ export class ScannerEngine {
             fps: 10,
             qrbox: { width: qrBoxSize, height: qrBoxSize },
             aspectRatio: 1.0,
-            disableFlip: false // Allow scanning mirrored codes
+            disableFlip: false // Permitir escaneamento de códigos espelhados
         };
     }
 
     /**
-     * Validates if the scanned text is a valid URL using the native URL API.
+     * Valida se o texto escaneado é uma URL válida usando a API nativa de URL.
      * @param {string} text
      * @returns {boolean}
      */
     isValidUrl(text) {
         try {
-            // Assume http:// if no protocol is given, to let the URL parser validate the domain structure.
+            // Assume http:// se nenhum protocolo for fornecido, para permitir que o parser de URL valide a estrutura do domínio.
             const urlToTest = /^https?:\/\//i.test(text) ? text : `http://${text}`;
             const parsedUrl = new URL(urlToTest);
             
-            // Further ensure it has a valid network hostname (must contain a dot for TLDs in this generic context)
+            // Garante também que possui um nome de host de rede válido (deve conter um ponto para TLDs neste contexto genérico)
             if (!parsedUrl.hostname.includes('.')) {
                 return false;
             }
@@ -41,7 +41,7 @@ export class ScannerEngine {
     }
 
     /**
-     * Main entry point to start the scanning engine.
+     * Ponto de entrada principal para iniciar o motor de escaneamento.
      */
     async start() {
         this.uiHandler.setState('loading');
@@ -52,32 +52,32 @@ export class ScannerEngine {
                 config,
                 (decodedText) => this.handleDetection(decodedText),
                 (error) => {
-                    // Log transient frame matching errors structurally without breaking UI
-                    console.warn(`[ScannerEngine] Transient detection error:`, {
+                    // Registrar erros transientes de leitura de frames de forma estruturada, sem quebrar a UI
+                    console.warn(`[ScannerEngine] Erro de detecção transiente:`, {
                         timestamp: new Date().toISOString(),
                         errorContext: error,
-                        action: 'Ignored transparently to avoid UI breaking'
+                        action: 'Ignorado de forma transparente para evitar quebra da UI'
                     });
                 }
             );
 
             this.uiHandler.setState('active');
         } catch (error) {
-            console.error(`[ScannerEngine] Fatal camera startup error:`, {
+            console.error(`[ScannerEngine] Erro fatal na inicialização da câmera:`, {
                 timestamp: new Date().toISOString(),
                 errorContext: error,
-                action: 'Displaying error state on UI'
+                action: 'Exibindo estado de erro na UI'
             });
             this.uiHandler.setState('error', 'Acesso à câmera negado ou dispositivo indisponível.');
         }
     }
 
     /**
-     * Handles the successful detection of a QR Code.
+     * Lida com a detecção bem-sucedida de um QR Code.
      * @param {string} decodedText
      */
     handleDetection(decodedText) {
-        // Debounce / prevent multiple rapid detections
+        // Debounce / previne múltiplas detecções rápidas repetidas
         if (this.isProcessing) return;
         this.isProcessing = true;
 
@@ -86,7 +86,7 @@ export class ScannerEngine {
         this.uiHandler.setState('success');
         
         if (this.isValidUrl(decodedText)) {
-            // Auto inject https:// if missing for secure redirect
+            // Injeta https:// automaticamente se estiver faltando para um redirecionamento seguro
             let redirectUrl = decodedText;
             if (!/^https?:\/\//i.test(decodedText)) {
                 redirectUrl = 'https://' + decodedText;
@@ -94,7 +94,7 @@ export class ScannerEngine {
             
             this.uiHandler.updateStatus(`${redirectUrl}`, 'success');
             
-            // Show action buttons for manual redirect to prevent phishing
+            // Mostra os botões de ação para redirecionamento manual como prevenção a phishing
             this.uiHandler.showUrlAction(
                 redirectUrl,
                 () => {
@@ -107,10 +107,10 @@ export class ScannerEngine {
                 }
             );
         } else {
-            // It's just text
+            // É apenas texto
             this.uiHandler.updateStatus(`${decodedText}`, 'default');
             
-            // Resume scanning after a delay
+            // Retoma o escaneamento após um atraso
             setTimeout(() => {
                 this.isProcessing = false;
                 this.uiHandler.setState('active');
