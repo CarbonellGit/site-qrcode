@@ -52,13 +52,22 @@ export class ScannerEngine {
                 config,
                 (decodedText) => this.handleDetection(decodedText),
                 (error) => {
-                    // Ignore transient frame matching errors
-                    // console.warn('QR Code parsing frame error', error);
+                    // Log transient frame matching errors structurally without breaking UI
+                    console.warn(`[ScannerEngine] Transient detection error:`, {
+                        timestamp: new Date().toISOString(),
+                        errorContext: error,
+                        action: 'Ignored transparently to avoid UI breaking'
+                    });
                 }
             );
 
             this.uiHandler.setState('active');
         } catch (error) {
+            console.error(`[ScannerEngine] Fatal camera startup error:`, {
+                timestamp: new Date().toISOString(),
+                errorContext: error,
+                action: 'Displaying error state on UI'
+            });
             this.uiHandler.setState('error', 'Acesso à câmera negado ou dispositivo indisponível.');
         }
     }
