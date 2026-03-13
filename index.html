@@ -83,7 +83,7 @@
     </div>
 
     <!-- html5-qrcode library loaded from CDN -->
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript" onload="window.dispatchEvent(new Event('scannerLibraryLoaded'))" defer></script>
     <!-- Main Application Module -->
     <script type="module" src="src/main.js"></script>
 </body>
