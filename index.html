@@ -48,7 +48,7 @@
                             <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                         </svg>
                     </div>
-                    <p>Redirecionando...</p>
+                    <p>URL Detectada</p>
                 </div>
 
                 <div class="overlay error-overlay" aria-hidden="true">
@@ -68,6 +68,12 @@
             <div class="status-container">
                 <div id="status-badge" class="badge">Pronto para ler</div>
                 <p id="result-text" class="result-text" aria-live="polite"></p>
+                
+                <!-- Action Buttons for URL validation to prevent phishing -->
+                <div id="action-container" class="action-container hidden" aria-hidden="true">
+                    <button id="access-link-btn" class="btn-primary" aria-label="Acessar Link Seguro">Acessar Link Seguro</button>
+                    <button id="resume-scan-btn" class="btn-secondary" aria-label="Cancelar e Escanear Novamente">Escanear Novamente</button>
+                </div>
             </div>
         </main>
         

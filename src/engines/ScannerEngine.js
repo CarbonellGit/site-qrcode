@@ -75,12 +75,20 @@ export class ScannerEngine {
                 redirectUrl = 'https://' + decodedText;
             }
             
-            this.uiHandler.updateStatus(`Redirecionando: ${redirectUrl}`, 'success');
+            this.uiHandler.updateStatus(`${redirectUrl}`, 'success');
             
-            // Redirect via window.location.assign
-            setTimeout(() => {
-                window.location.assign(redirectUrl);
-            }, 1200); // Short delay to show the ✅ animation
+            // Show action buttons for manual redirect to prevent phishing
+            this.uiHandler.showUrlAction(
+                redirectUrl,
+                () => {
+                    window.location.assign(redirectUrl);
+                },
+                () => {
+                    this.isProcessing = false;
+                    this.uiHandler.setState('active');
+                    this.cameraService.resumeCamera();
+                }
+            );
         } else {
             // It's just text
             this.uiHandler.updateStatus(`${decodedText}`, 'default');
