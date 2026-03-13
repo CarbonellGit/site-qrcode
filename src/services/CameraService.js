@@ -64,7 +64,11 @@ export class CameraService {
             );
             return true;
         } catch (error) {
-            console.error("Camera startup error:", error);
+            console.error(`[CameraService] Failed to start camera stream:`, {
+                timestamp: new Date().toISOString(),
+                configUsed: config,
+                errorContext: error
+            });
             throw error;
         }
     }
