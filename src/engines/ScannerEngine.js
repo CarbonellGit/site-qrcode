@@ -19,14 +19,22 @@ export class ScannerEngine {
     }
 
     /**
-     * Validates if the scanned text is a valid URL using Regex.
+     * Validates if the scanned text is a valid URL using the native URL API.
      * @param {string} text
      * @returns {boolean}
      */
     isValidUrl(text) {
         try {
-            const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
-            return !!urlPattern.test(text);
+            // Assume http:// if no protocol is given, to let the URL parser validate the domain structure.
+            const urlToTest = /^https?:\/\//i.test(text) ? text : `http://${text}`;
+            const parsedUrl = new URL(urlToTest);
+            
+            // Further ensure it has a valid network hostname (must contain a dot for TLDs in this generic context)
+            if (!parsedUrl.hostname.includes('.')) {
+                return false;
+            }
+
+            return true;
         } catch (_) {
             return false;
         }
