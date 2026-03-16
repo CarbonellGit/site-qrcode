@@ -92,12 +92,21 @@ export class ScannerEngine {
                 redirectUrl = 'https://' + decodedText;
             }
             
-            this.uiHandler.updateStatus(`Redirecionando...`, 'success');
+            this.uiHandler.updateStatus(`Aguardando toque...`, 'success');
             
-            // Redireciona na mesma aba automaticamente.
-            // NOTA: Navegadores bloqueiam tentativas de abrir novas abas (window.open ou link.click)
-            // de forma automática (sem clique explícito do usuário) por política de anti-popup.
-            window.location.assign(redirectUrl);
+            // Exige um toque explícito do usuário na tela do scanner para abrir em nova aba
+            // (A única forma confiável de contornar bloqueadores de popup em iOS/Chrome)
+            this.uiHandler.requireUserTap(
+                redirectUrl,
+                () => {
+                    window.open(redirectUrl, '_blank', 'noopener,noreferrer');
+                },
+                () => {
+                    this.isProcessing = false;
+                    this.uiHandler.setState('active');
+                    this.cameraService.resumeCamera();
+                }
+            );
         } else {
             // É apenas texto
             this.uiHandler.updateStatus(`${decodedText}`, 'default');
