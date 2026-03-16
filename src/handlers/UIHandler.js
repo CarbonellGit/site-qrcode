@@ -126,4 +126,26 @@ export class UIHandler {
         this.actionContainer.classList.remove('hidden');
         this.actionContainer.setAttribute('aria-hidden', 'false');
     }
+
+    /**
+     * Transforma a tela de sucesso em um botão interativo para forçar a interação do usuário.
+     * Isso contorna os bloqueadores nativos de popup de navegadores para `window.open` com "_blank".
+     * @param {string} url - A URL detectada
+     * @param {Function} onAccess - Callback que faz o window.open
+     * @param {Function} onResume - Callback que retoma a câmera
+     */
+    requireUserTap(url, onAccess, onResume) {
+        const overlay = document.querySelector('.success-overlay');
+        if (!overlay) return;
+        
+        // Remove listeners antigos substituindo o nó
+        const newOverlay = overlay.cloneNode(true);
+        overlay.parentNode.replaceChild(newOverlay, overlay);
+        
+        // Adiciona ouvinte que dispara apenas uma vez por leitura
+        newOverlay.addEventListener('click', () => {
+            onAccess();
+            onResume();
+        }, { once: true });
+    }
 }
