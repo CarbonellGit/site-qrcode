@@ -94,18 +94,15 @@ export class ScannerEngine {
             
             this.uiHandler.updateStatus(`${redirectUrl}`, 'success');
             
-            // Mostra os botões de ação para redirecionamento manual como prevenção a phishing
-            this.uiHandler.showUrlAction(
-                redirectUrl,
-                () => {
-                    window.location.assign(redirectUrl);
-                },
-                () => {
-                    this.isProcessing = false;
-                    this.uiHandler.setState('active');
-                    this.cameraService.resumeCamera();
-                }
-            );
+            // Abre o link automaticamente em uma nova aba do navegador
+            window.open(redirectUrl, '_blank', 'noopener,noreferrer');
+
+            // Retoma o escaneamento após um intervalo para permitir novas leituras
+            setTimeout(() => {
+                this.isProcessing = false;
+                this.uiHandler.setState('active');
+                this.cameraService.resumeCamera();
+            }, 3000);
         } else {
             // É apenas texto
             this.uiHandler.updateStatus(`${decodedText}`, 'default');
