@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header Section -->
+        <!-- Seção do Cabeçalho -->
         <header class="app-header">
             <div class="brand">
                 <div class="logo-icon">
@@ -29,13 +29,13 @@
             <p class="app-subtitle" aria-live="polite">Aponte sua câmera para o QR Code</p>
         </header>
 
-        <!-- Main Scanner Area -->
+        <!-- Área Principal do Scanner -->
         <main class="scanner-section">
             <div id="reader-wrapper" class="state-loading" aria-live="assertive">
-                <!-- html5-qrcode injection point -->
+                <!-- Ponto de injeção do html5-qrcode -->
                 <div id="reader"></div>
 
-                <!-- Custom UI Overlays for Application States -->
+                <!-- Sobreposições (Overlays) personalizadas para os Estados da Aplicação -->
                 <div class="overlay loading-overlay" aria-hidden="false">
                     <div class="spinner"></div>
                     <p>Acessando a câmera...</p>
@@ -64,12 +64,12 @@
                 </div>
             </div>
 
-            <!-- Validation/Result Status Area -->
+            <!-- Área de Status e Resultado da Validação -->
             <div class="status-container">
                 <div id="status-badge" class="badge">Pronto para ler</div>
                 <p id="result-text" class="result-text" aria-live="polite"></p>
                 
-                <!-- Action Buttons for URL validation to prevent phishing -->
+                <!-- Botões de ação para validação de URL (prevenção contra phishing) -->
                 <div id="action-container" class="action-container hidden" aria-hidden="true">
                     <button id="access-link-btn" class="btn-primary" aria-label="Acessar Link Seguro">Acessar Link Seguro</button>
                     <button id="resume-scan-btn" class="btn-secondary" aria-label="Cancelar e Escanear Novamente">Escanear Novamente</button>
@@ -82,9 +82,9 @@
         </footer>
     </div>
 
-    <!-- html5-qrcode library loaded from CDN -->
+    <!-- Biblioteca html5-qrcode carregada via CDN -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript" onload="window.dispatchEvent(new Event('scannerLibraryLoaded'))" defer></script>
-    <!-- Main Application Module -->
+    <!-- Módulo Principal da Aplicação -->
     <script type="module" src="src/main.js"></script>
 </body>
 </html>

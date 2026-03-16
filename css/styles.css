@@ -1,14 +1,14 @@
 /* ==========================================================================
-   Design System & Global Variables
+   Design System e Variáveis Globais
    ========================================================================== */
 :root {
-    /* Strict Palette */
+    /* Paleta Estrita */
     --carbonell-azul-escuro: #2b3a6c;
     --carbonell-azul-marinho: #1e2a4d;
     --carbonell-amarelo: #f7b53b;
     --carbonell-branco: #ffffff;
 
-    /* Extended System Tokens for gradients and semantic usage */
+    /* Tokens Estendidos do Sistema para gradientes e uso semântico */
     --bg-gradient: linear-gradient(135deg, var(--carbonell-azul-marinho) 0%, var(--carbonell-azul-escuro) 100%);
     --text-primary: var(--carbonell-branco);
     --text-secondary: rgba(255, 255, 255, 0.7);
@@ -24,18 +24,18 @@
     --radius-md: 1rem;
     --radius-sm: 0.5rem;
     
-    /* Effects */
+    /* Efeitos */
     --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.5);
     --shadow-glow: 0 0 20px rgba(247, 181, 59, 0.3);
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
     
-    /* Typography */
+    /* Tipografia */
     --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
 }
 
 /* ==========================================================================
-   Reset & Base Styles
+   Reset e Estilos Base
    ========================================================================== */
 * {
     margin: 0;
@@ -56,7 +56,7 @@ body {
 }
 
 /* ==========================================================================
-   Layout & Container
+   Layout e Contêiner Principal
    ========================================================================== */
 .app-container {
     width: 100%;
@@ -69,10 +69,10 @@ body {
     overflow: hidden;
 }
 
-/* Background decorative element removed to keep a clean blue background */
+/* Elemento decorativo de fundo removido para manter o fundo azul limpo */
 
 /* ==========================================================================
-   Header Component
+   Componente de Cabeçalho
    ========================================================================== */
 .app-header {
     text-align: center;
@@ -109,7 +109,7 @@ body {
 }
 
 /* ==========================================================================
-   Scanner Section & Wrapper (Glassmorphism)
+   Seção do Scanner e Wrapper (Glassmorphism)
    ========================================================================== */
 .scanner-section {
     flex: 1;
@@ -136,13 +136,13 @@ body {
     transition: all 0.4s ease;
 }
 
-/* Active State Effect */
+/* Efeito de Estado Ativo */
 #reader-wrapper.state-active {
     border-color: rgba(247, 181, 59, 0.5);
     box-shadow: var(--shadow-glow);
 }
 
-/* Hide specific html5-qrcode native styling via CSS */
+/* Ocultar estilização nativa do html5-qrcode via CSS */
 #reader {
     width: 100%;
     height: 100%;
@@ -158,11 +158,11 @@ body {
 #reader__dashboard_section_csr,
 #reader__dashboard_section_swaplink,
 #reader__header_message {
-    display: none !important; /* Hiding default UI to rely on custom UI */
+    display: none !important; /* Ocultando UI padrão para usar a UI personalizada */
 }
 
 /* ==========================================================================
-   Overlays for States (Loading, Error, Success)
+   Sobreposições (Overlays) para Estados (Carregando, Erro, Sucesso)
    ========================================================================== */
 .overlay {
     position: absolute;
@@ -196,7 +196,7 @@ body {
     opacity: 1;
 }
 
-/* Loading Spinner */
+/* Indicador de Carregamento (Spinner) */
 .spinner {
     width: 40px;
     height: 40px;
@@ -207,7 +207,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Status Text below Scanner */
+/* Texto de Status abaixo do Scanner */
 .status-container {
     margin-top: 2rem;
     text-align: center;
@@ -251,7 +251,7 @@ body {
 }
 
 /* ==========================================================================
-   Buttons
+   Botões
    ========================================================================== */
 .btn-primary {
     background: var(--accent);
@@ -314,7 +314,7 @@ body {
 }
 
 /* ==========================================================================
-   Footer
+   Rodapé
    ========================================================================== */
 .app-footer {
     text-align: center;
@@ -327,7 +327,7 @@ body {
 }
 
 /* ==========================================================================
-   Animations
+   Animações
    ========================================================================== */
 @keyframes spin {
     to { transform: rotate(360deg); }
@@ -343,7 +343,7 @@ body {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* Success Checkmark Animation */
+/* Animação do Ícone de Sucesso (Checkmark) */
 .checkmark {
     width: 56px;
     height: 56px;
@@ -388,13 +388,13 @@ body {
 }
 
 /* ==========================================================================
-   Media Queries (Desktop layout adjustment)
+   Media Queries (Ajuste de layout para Desktop)
    ========================================================================== */
 @media (min-width: 768px) {
     .app-container {
         padding: 3rem;
         max-width: 800px;
-        align-items: center; /* Center horizontally for desktop */
+        align-items: center; /* Centralizar horizontalmente no desktop */
     }
     
     #reader-wrapper {
