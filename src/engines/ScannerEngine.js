@@ -92,25 +92,12 @@ export class ScannerEngine {
                 redirectUrl = 'https://' + decodedText;
             }
             
-            this.uiHandler.updateStatus(`${redirectUrl}`, 'success');
+            this.uiHandler.updateStatus(`Redirecionando...`, 'success');
             
-            // Abre o link automaticamente em uma nova aba do navegador
-            // Usa um elemento <a> invisível para evitar o bloqueio de popup do navegador,
-            // pois window.open() é bloqueado quando chamado fora de um clique direto do usuário
-            const link = document.createElement('a');
-            link.href = redirectUrl;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            // Retoma o escaneamento após um intervalo para permitir novas leituras
-            setTimeout(() => {
-                this.isProcessing = false;
-                this.uiHandler.setState('active');
-                this.cameraService.resumeCamera();
-            }, 3000);
+            // Redireciona na mesma aba automaticamente.
+            // NOTA: Navegadores bloqueiam tentativas de abrir novas abas (window.open ou link.click)
+            // de forma automática (sem clique explícito do usuário) por política de anti-popup.
+            window.location.assign(redirectUrl);
         } else {
             // É apenas texto
             this.uiHandler.updateStatus(`${decodedText}`, 'default');
