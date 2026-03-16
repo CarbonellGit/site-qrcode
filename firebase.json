@@ -4,11 +4,11 @@
     "ignore": [
       "firebase.json",
       ".firebaserc",
-      ".firebase",
-      ".git",
+      ".firebase/**",
+      ".git/**",
       ".gitignore",
-      "node_modules",
-      "venv",
+      "node_modules/**",
+      "venv/**",
       "README.md",
       "**/*.md"
     ],
