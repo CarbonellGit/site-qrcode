@@ -52,7 +52,7 @@ export class CameraService {
     async startCamera(config, onDetect, onError) {
         this.init();
         if (!this.scannerInstance) {
-            throw new Error("Html5Qrcode library not loaded.");
+            throw new Error("Biblioteca Html5Qrcode não carregada.");
         }
 
         try {
@@ -64,7 +64,7 @@ export class CameraService {
             );
             return true;
         } catch (error) {
-            console.error(`[CameraService] Failed to start camera stream:`, {
+            console.error(`[CameraService] Falha ao iniciar o stream da câmera:`, {
                 timestamp: new Date().toISOString(),
                 configUsed: config,
                 errorContext: error
