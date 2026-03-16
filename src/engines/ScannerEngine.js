@@ -95,7 +95,15 @@ export class ScannerEngine {
             this.uiHandler.updateStatus(`${redirectUrl}`, 'success');
             
             // Abre o link automaticamente em uma nova aba do navegador
-            window.open(redirectUrl, '_blank', 'noopener,noreferrer');
+            // Usa um elemento <a> invisível para evitar o bloqueio de popup do navegador,
+            // pois window.open() é bloqueado quando chamado fora de um clique direto do usuário
+            const link = document.createElement('a');
+            link.href = redirectUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
 
             // Retoma o escaneamento após um intervalo para permitir novas leituras
             setTimeout(() => {
