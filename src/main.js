@@ -28,14 +28,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Inicializa o sistema apenas quando as dependências estão totalmente disponíveis.
-     * Previne a verificação contínua do DOM (polling).
+     * Usa evento customizado com fallback de polling para evitar race conditions.
      */
     const bootstrap = () => {
+        // Flag para prevenir inicialização dupla
+        let initialized = false;
+
+        const safeInit = () => {
+            if (!initialized && typeof window.Html5Qrcode !== 'undefined') {
+                initialized = true;
+                initApplication();
+            }
+        };
+
+        // Caminho rápido: biblioteca já carregou
         if (typeof window.Html5Qrcode !== 'undefined') {
             initApplication();
-        } else {
-            window.addEventListener('scannerLibraryLoaded', initApplication, { once: true });
+            return;
         }
+
+        // Registra listener para o evento customizado
+        window.addEventListener('scannerLibraryLoaded', safeInit, { once: true });
+
+        // Fallback: polling de curta duração caso o evento já tenha disparado
+        let attempts = 0;
+        const maxAttempts = 50; // 50 × 100ms = 5 segundos máximo
+        const checkLibrary = setInterval(() => {
+            attempts++;
+            if (typeof window.Html5Qrcode !== 'undefined') {
+                clearInterval(checkLibrary);
+                safeInit();
+            } else if (attempts >= maxAttempts) {
+                clearInterval(checkLibrary);
+                console.error('[Bootstrap] Biblioteca html5-qrcode não carregou após 5s.');
+            }
+        }, 100);
     };
 
     // Ponto de partida
