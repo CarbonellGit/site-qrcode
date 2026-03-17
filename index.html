@@ -31,12 +31,23 @@
 
         <!-- Área Principal do Scanner -->
         <main class="scanner-section">
-            <div id="reader-wrapper" class="state-loading" aria-live="assertive">
+            <div id="reader-wrapper" class="state-start" aria-live="assertive">
                 <!-- Ponto de injeção do html5-qrcode -->
                 <div id="reader"></div>
 
                 <!-- Sobreposições (Overlays) personalizadas para os Estados da Aplicação -->
-                <div class="overlay loading-overlay" aria-hidden="false">
+                <div class="overlay start-overlay" aria-hidden="false">
+                    <div class="start-icon" style="margin-bottom: 15px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                    </div>
+                    <button id="start-scanner-btn" class="btn-primary" aria-label="Iniciar Scanner">Iniciar Scanner</button>
+                    <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.8; text-align: center;">Necessário para abrir links<br>automaticamente</p>
+                </div>
+
+                <div class="overlay loading-overlay" aria-hidden="true">
                     <div class="spinner"></div>
                     <p>Acessando a câmera...</p>
                 </div>

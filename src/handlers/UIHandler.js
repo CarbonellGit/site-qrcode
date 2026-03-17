@@ -18,7 +18,7 @@ export class UIHandler {
      */
     setState(state, customErrorMessage = '') {
         // Redefine as classes de estado específicas no wrapper central
-        this.wrapper.classList.remove('state-loading', 'state-active', 'state-success', 'state-error');
+        this.wrapper.classList.remove('state-start', 'state-loading', 'state-active', 'state-success', 'state-error');
         this.wrapper.classList.add(`state-${state}`);
         
         // Oculta todas as camadas sobrepostas (overlays) estritamente via ARIA
@@ -41,6 +41,9 @@ export class UIHandler {
 
         // Trata a lógica específica para cada estado
         switch (state) {
+            case 'start':
+                this.updateStatus('Aguardando início', 'default');
+                break;
             case 'loading':
                 this.updateStatus('Acessando câmera...', 'default');
                 break;
