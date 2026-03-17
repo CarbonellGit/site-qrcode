@@ -183,10 +183,6 @@ body {
     pointer-events: auto;
 }
 
-#reader-wrapper.state-start .start-overlay {
-    opacity: 1;
-}
-
 #reader-wrapper.state-loading .loading-overlay {
     opacity: 1;
 }
