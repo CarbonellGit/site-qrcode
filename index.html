@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Código QR Scanner Premium</title>
+    <title>Código QR Scanner</title>
     <meta name="description" content="Leitor de QR Code rápido e seguro.">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Seção do Cabeçalho -->
         <header class="app-header">
             <div class="brand">
                 <div class="logo-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
                         <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
                         <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
@@ -38,13 +41,18 @@
                 <!-- Sobreposições (Overlays) personalizadas para os Estados da Aplicação -->
                 <div class="overlay start-overlay" aria-hidden="false">
                     <div class="start-icon" style="margin-bottom: 15px;">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="color: var(--accent);">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                            </path>
                             <circle cx="12" cy="13" r="4"></circle>
                         </svg>
                     </div>
-                    <button id="start-scanner-btn" class="btn-primary" aria-label="Iniciar Scanner">Iniciar Scanner</button>
-                    <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.8; text-align: center;">Necessário para abrir links<br>automaticamente</p>
+                    <button id="start-scanner-btn" class="btn-primary" aria-label="Iniciar Scanner">Iniciar
+                        Scanner</button>
+                    <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.8; text-align: center;">Necessário para
+                        abrir links<br>automaticamente</p>
                 </div>
 
                 <div class="overlay loading-overlay" aria-hidden="true">
@@ -52,20 +60,20 @@
                     <p>Acessando a câmera...</p>
                 </div>
 
-                <div class="overlay success-overlay" aria-hidden="true" style="cursor: pointer;">
+                <div class="overlay success-overlay" aria-hidden="true">
                     <div class="success-animation">
                         <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                         </svg>
                     </div>
-                    <p>URL Detectada</p>
-                    <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 5px;">Toque na tela para abrir</p>
+                    <p>Leitura Concluída</p>
                 </div>
 
                 <div class="overlay error-overlay" aria-hidden="true">
                     <div class="error-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="8" x2="12" y2="12"></line>
                             <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -80,23 +88,26 @@
             <div class="status-container">
                 <div id="status-badge" class="badge">Pronto para ler</div>
                 <p id="result-text" class="result-text" aria-live="polite"></p>
-                
+
                 <!-- Botões de ação para validação de URL (prevenção contra phishing) -->
                 <div id="action-container" class="action-container hidden" aria-hidden="true">
-                    <button id="access-link-btn" class="btn-primary" aria-label="Acessar Link Seguro">Acessar Link Seguro</button>
-                    <button id="resume-scan-btn" class="btn-secondary" aria-label="Cancelar e Escanear Novamente">Escanear Novamente</button>
+                    <button id="access-link-btn" class="btn-primary" aria-label="Acessar Link">Acessar Link</button>
+                    <button id="resume-scan-btn" class="btn-secondary"
+                        aria-label="Cancelar e Escanear Novamente">Escanear Novamente</button>
                 </div>
             </div>
         </main>
-        
+
         <footer class="app-footer">
             <p>Plataforma Segura</p>
         </footer>
     </div>
 
     <!-- Biblioteca html5-qrcode carregada via CDN -->
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript" onload="window.dispatchEvent(new Event('scannerLibraryLoaded'))" defer></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"
+        onload="window.dispatchEvent(new Event('scannerLibraryLoaded'))" defer></script>
     <!-- Módulo Principal da Aplicação -->
     <script type="module" src="src/main.js"></script>
 </body>
+
 </html>
