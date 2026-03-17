@@ -15,15 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const cameraService = new CameraService('reader');
         const scannerEngine = new ScannerEngine(cameraService, uiHandler);
 
-        // Iniciar no estado "start" aguardando ação do usuário
-        uiHandler.setState('start');
-        
-        const startBtn = document.getElementById('start-scanner-btn');
-        if (startBtn) {
-            startBtn.addEventListener('click', () => {
-                scannerEngine.start();
-            });
-        }
+        // Iniciar escaneamento
+        scannerEngine.start();
 
         // Vincular botão de tentar novamente
         if (retryBtn) {
